@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const tslib_1 = require("tslib");
 const msgpack_1 = require("@msgpack/msgpack");
 class Wrap {
     constructor(target, wrapper) {
@@ -24,12 +25,12 @@ function wrap(target, wrapper) {
 }
 exports.wrap = wrap;
 function expose(instance, exposer) {
-    exposer.subscribe(v => {
+    exposer.subscribe((v) => tslib_1.__awaiter(this, void 0, void 0, function* () {
         const { port, value } = v;
         const { type, args, uuid } = msgpack_1.decode(value);
-        const response = instance[type](...args);
+        const response = yield instance[type](...args);
         port.postMessage(msgpack_1.encode({ uuid, response }));
-    });
+    }));
 }
 exports.expose = expose;
 function generateUUID() {
