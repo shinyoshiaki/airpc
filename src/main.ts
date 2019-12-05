@@ -40,10 +40,10 @@ export function wrap<T>(target: { new (): T }, wrapper: Wrapper): Remote<T> {
 }
 
 export function expose(instance: any, exposer: Exposer) {
-  exposer.subscribe(v => {
+  exposer.subscribe(async v => {
     const { port, value } = v;
     const { type, args, uuid } = decode(value) as any;
-    const response = instance[type](...args);
+    const response = await instance[type](...args);
     port.postMessage(encode({ uuid, response }));
   });
 }
