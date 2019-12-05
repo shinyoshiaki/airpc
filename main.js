@@ -1,5 +1,6 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
+const msgpack_1 = require("@msgpack/msgpack");
 class Wrap {
     constructor(target, wrapper) {
         Object.getOwnPropertyNames(target.prototype).forEach(type => {
@@ -8,12 +9,12 @@ class Wrap {
             this[type] = (...args) => new Promise(r => {
                 const parentId = generateUUID();
                 wrapper.subject.subscribe(res => {
-                    const { uuid, response } = JSON.parse(res);
+                    const { uuid, response } = msgpack_1.decode(res);
                     if (parentId === uuid) {
                         r(response);
                     }
                 });
-                wrapper.post(JSON.stringify({ type, args, uuid: parentId }));
+                wrapper.post(msgpack_1.encode({ type, args, uuid: parentId }));
             });
         });
     }
@@ -25,9 +26,9 @@ exports.wrap = wrap;
 function expose(instance, exposer) {
     exposer.subscribe(v => {
         const { port, value } = v;
-        const { type, args, uuid } = JSON.parse(value);
+        const { type, args, uuid } = msgpack_1.decode(value);
         const response = instance[type](...args);
-        port.postMessage(JSON.stringify({ uuid, response }));
+        port.postMessage(msgpack_1.encode({ uuid, response }));
     });
 }
 exports.expose = expose;

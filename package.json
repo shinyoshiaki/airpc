@@ -10,6 +10,7 @@
     "type": "tsc --noEmit"
   },
   "dependencies": {
+    "@msgpack/msgpack": "^1.9.3",
     "rxjs": "^6.5.3",
     "typescript": "^3.7.2"
   },

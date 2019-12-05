@@ -1,15 +1,15 @@
 import { Remote } from "./typings/remote";
 import { Subject } from "rxjs";
 export declare type Wrapper = {
-    subject: Subject<string>;
-    post: (v: any) => void;
+    subject: Subject<Uint8Array>;
+    post: (v: Uint8Array) => void;
 };
 export declare type Exposer = Subject<ExposerObject>;
 export declare type ExposerObject = {
     port: {
-        postMessage: (v: string) => void;
+        postMessage: (v: Uint8Array) => void;
     };
-    value: string;
+    value: Uint8Array;
 };
 export declare function wrap<T>(target: {
     new (): T;
