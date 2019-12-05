@@ -4,9 +4,9 @@ import { MessageChannel, Worker, parentPort } from "worker_threads";
 import { Subject } from "rxjs";
 
 export const workerThreadsWrapper = (worker: Worker): Wrapper => {
-  const subject = new Subject<string>();
+  const subject = new Subject<Uint8Array>();
 
-  const post = (value: string) => {
+  const post = (value: Uint8Array) => {
     const { port1, port2 } = new MessageChannel();
 
     port1.on("message", s => {

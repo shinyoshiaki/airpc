@@ -1,11 +1,16 @@
+import { decode, encode } from "@msgpack/msgpack";
+
 import { Remote } from "./typings/remote";
 import { Subject } from "rxjs";
 
-export type Wrapper = { subject: Subject<string>; post: (v: any) => void };
+export type Wrapper = {
+  subject: Subject<Uint8Array>;
+  post: (v: Uint8Array) => void;
+};
 export type Exposer = Subject<ExposerObject>;
 export type ExposerObject = {
-  port: { postMessage: (v: string) => void };
-  value: string;
+  port: { postMessage: (v: Uint8Array) => void };
+  value: Uint8Array;
 };
 
 class Wrap {
@@ -18,13 +23,13 @@ class Wrap {
           const parentId = generateUUID();
 
           wrapper.subject.subscribe(res => {
-            const { uuid, response } = JSON.parse(res);
+            const { uuid, response } = decode(res) as any;
             if (parentId === uuid) {
               r(response);
             }
           });
 
-          wrapper.post(JSON.stringify({ type, args, uuid: parentId }));
+          wrapper.post(encode({ type, args, uuid: parentId }));
         });
     });
   }
@@ -37,9 +42,9 @@ export function wrap<T>(target: { new (): T }, wrapper: Wrapper): Remote<T> {
 export function expose(instance: any, exposer: Exposer) {
   exposer.subscribe(v => {
     const { port, value } = v;
-    const { type, args, uuid } = JSON.parse(value);
+    const { type, args, uuid } = decode(value) as any;
     const response = instance[type](...args);
-    port.postMessage(JSON.stringify({ uuid, response }));
+    port.postMessage(encode({ uuid, response }));
   });
 }
 
