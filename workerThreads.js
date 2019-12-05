@@ -26,4 +26,4 @@ exports.workerThreadsExposer = () => {
     }
     return subject;
 };
-//# sourceMappingURL=worker.js.map
+//# sourceMappingURL=workerThreads.js.map
