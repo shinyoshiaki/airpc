@@ -1,4 +1,4 @@
-import { Exposer, ExposerObject, Wrapper } from "./main";
+import { Exposer, ExposerObject, Wrapper } from "../main";
 import { MessageChannel, Worker, parentPort } from "worker_threads";
 
 import { Subject } from "rxjs";

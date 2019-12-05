@@ -6,7 +6,8 @@
   "license": "MIT",
   "scripts": {
     "test": "jest --forceExit",
-    "build": "tsc"
+    "build": "tsc",
+    "type": "tsc --noEmit"
   },
   "dependencies": {
     "rxjs": "^6.5.3",

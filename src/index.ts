@@ -1,5 +1,8 @@
 import { Exposer, ExposerObject, Wrapper, expose, wrap } from "./main";
-import { workerThreadsExposer, workerThreadsWrapper } from "./workerThreads";
+import {
+  workerThreadsExposer,
+  workerThreadsWrapper
+} from "./module/workerThreads";
 
 export {
   Wrapper,
