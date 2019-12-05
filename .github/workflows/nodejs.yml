@@ -24,6 +24,7 @@ jobs:
           yarn install
           yarn test
           yarn build
+          ./deploy.sh
 
       - name: deploy
         uses: peaceiris/actions-gh-pages@v2.5.0

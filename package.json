@@ -1,7 +1,7 @@
 {
   "name": "node-worker",
   "version": "0.0.1",
-  "main": "lib/index.js",
+  "main": "index.js",
   "author": "shinyoshiaki",
   "license": "MIT",
   "scripts": {
