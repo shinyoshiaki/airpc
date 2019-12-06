@@ -1,3 +1,3 @@
 import { Exposer, ExposerObject, Wrapper, expose, wrap } from "./main";
-import { exposeRedux, wrapRedux } from "./redux";
-export { Wrapper, Exposer, ExposerObject, wrap, expose, wrapRedux, exposeRedux };
+import { exposeRedux, withRedux, wrapRedux } from "./redux";
+export { Wrapper, Exposer, ExposerObject, wrap, expose, wrapRedux, exposeRedux, withRedux };
