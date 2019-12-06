@@ -1,6 +1,6 @@
 import { TestWorker } from "./worker";
 import { Worker } from "worker_threads";
-import { workerThreadsWrapper } from "../src/module";
+import { workerThreadsWrapper } from "../src/module/workerThreads";
 import { wrap } from "../src";
 
 test(
