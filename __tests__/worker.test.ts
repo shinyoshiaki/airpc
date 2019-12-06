@@ -1,7 +1,7 @@
-import { workerThreadsWrapper, wrap } from "../src";
-
 import { TestWorker } from "./worker";
 import { Worker } from "worker_threads";
+import { workerThreadsWrapper } from "../src/module";
+import { wrap } from "../src";
 
 test(
   "worker",
