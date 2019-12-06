@@ -2,8 +2,8 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class WrapRedux {
     constructor(target) {
-        Object.getOwnPropertyNames(target.prototype).forEach(type => {
-            if (type === "constructor")
+        Object.keys(new target()).forEach(type => {
+            if (type === "constructor" || type === "state")
                 return;
             const actionType = target.name + "_" + type;
             this[type] = (...args) => ({ type: actionType, args });
@@ -13,7 +13,6 @@ class WrapRedux {
 function wrapRedux(target) {
     return new WrapRedux(target);
 }
-exports.wrapRedux = wrapRedux;
 function exposeRedux(instance) {
     const update = (state, v) => {
         const { type, args } = v;
@@ -22,7 +21,7 @@ function exposeRedux(instance) {
             return state;
         if (instance[method]) {
             instance.state = state;
-            return instance[method](...args);
+            return Object.assign(Object.assign({}, state), instance[method](...args));
         }
         else {
             return state;
@@ -30,7 +29,6 @@ function exposeRedux(instance) {
     };
     return update;
 }
-exports.exposeRedux = exposeRedux;
 function withRedux(target, initialState) {
     const instance = new target(initialState);
     const methods = wrapRedux(target);
