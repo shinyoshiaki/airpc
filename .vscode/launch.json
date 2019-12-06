@@ -14,7 +14,7 @@
         "--runInBand",
         "--forceExit",
         "--detectOpenHandles",
-        "${workspaceRoot}/__tests__/worker.test.ts"
+        "${workspaceRoot}/__tests__/redux.test.ts"
       ],
       "windows": {
         "program": "${workspaceRoot}/node_modules/jest/bin/jest.js"

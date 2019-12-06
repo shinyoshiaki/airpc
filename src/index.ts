@@ -1,4 +1,5 @@
 import { Exposer, ExposerObject, Wrapper, expose, wrap } from "./main";
+import { exposeRedux, wrapRedux } from "./redux";
 import {
   workerThreadsExposer,
   workerThreadsWrapper
@@ -11,5 +12,7 @@ export {
   wrap,
   expose,
   workerThreadsExposer,
-  workerThreadsWrapper
+  workerThreadsWrapper,
+  wrapRedux,
+  exposeRedux
 };
