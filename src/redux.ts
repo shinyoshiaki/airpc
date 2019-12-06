@@ -16,8 +16,8 @@ export function wrapRedux<T>(
   return new WrapRedux(target, wrapper) as any;
 }
 
-export function exposeRedux(instance: any) {
-  const update = (state: any, v: any) => {
+export function exposeRedux<T extends any>(instance: T) {
+  const update = (state: any, v: any): T["state"] => {
     const { type, args } = v;
     if (instance[type]) {
       instance.state = state;

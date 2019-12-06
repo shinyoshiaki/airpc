@@ -27,21 +27,20 @@ test("redux", () => {
 
   const update = exposeRedux(new Link(initialState));
 
-  const reducer = (state = initialState, action: any): State =>
-    update(state, action);
+  const reducer = (state = initialState, action: any) => update(state, action);
 
   const store = createStore(combineReducers({ reducer }));
 
-  const action = wrapRedux(Link, store.dispatch);
+  const methods = wrapRedux(Link, store.dispatch);
 
   expect(store.getState().reducer.loading).toBe(false);
   expect(store.getState().reducer.result).toBe("");
 
-  action.request();
+  methods.request();
   expect(store.getState().reducer.loading).toBe(true);
   expect(store.getState().reducer.result).toBe("");
 
-  action.succeed("test");
+  methods.succeed("test");
   expect(store.getState().reducer.loading).toBe(false);
   expect(store.getState().reducer.result).toBe("test");
 });
