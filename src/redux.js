@@ -29,9 +29,10 @@ function exposeRedux(instance) {
 exports.exposeRedux = exposeRedux;
 function withRedux(target, initialState) {
     const instance = new target(initialState);
-    const wrapped = wrapRedux(target);
+    const methods = wrapRedux(target);
     const update = exposeRedux(instance);
-    return [wrapped, update];
+    const reducer = (state = initialState, action) => update(state, action);
+    return [methods, reducer];
 }
 exports.withRedux = withRedux;
 //# sourceMappingURL=redux.js.map
