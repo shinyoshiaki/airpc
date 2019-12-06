@@ -1,16 +1,16 @@
 "use strict";
 Object.defineProperty(exports, "__esModule", { value: true });
 class WrapRedux {
-    constructor(target, wrapper) {
+    constructor(target) {
         Object.getOwnPropertyNames(target.prototype).forEach(type => {
             if (type === "constructor")
                 return;
-            this[type] = (...args) => wrapper({ type, args });
+            this[type] = (...args) => ({ type, args });
         });
     }
 }
-function wrapRedux(target, wrapper) {
-    return new WrapRedux(target, wrapper);
+function wrapRedux(target) {
+    return new WrapRedux(target);
 }
 exports.wrapRedux = wrapRedux;
 function exposeRedux(instance) {
