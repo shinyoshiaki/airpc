@@ -7,8 +7,8 @@ test("redux", () => {
   const [methods, reducer] = withRedux(
     class ReducerClass {
       constructor(private state: State) {}
-      request = (): State => ({ ...this.state, loading: true });
-      succeed = (result: string): State => ({
+      request = () => ({ ...this.state, loading: true });
+      succeed = (result: string) => ({
         ...this.state,
         loading: false,
         result
