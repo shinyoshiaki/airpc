@@ -1,0 +1,1 @@
+{"version":3,"file":"index.js","sourceRoot":"","sources":["../../src/module/index.ts"],"names":[],"mappings":";;AAAA,mDAA6E;AAEpE,+BAFA,oCAAoB,CAEA;AAAE,+BAFA,oCAAoB,CAEA","sourcesContent":["import { workerThreadsExposer, workerThreadsWrapper } from \"./workerThreads\";\n\nexport { workerThreadsExposer, workerThreadsWrapper };\n"]}
