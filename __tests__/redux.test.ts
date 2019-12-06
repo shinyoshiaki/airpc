@@ -26,8 +26,7 @@ test("redux", () => {
     }
   }
 
-  const [methods, update] = withRedux(ReducerClass, initialState);
-  const reducer = (state = initialState, action: any) => update(state, action);
+  const [methods, reducer] = withRedux(ReducerClass, initialState);
   const store = createStore(combineReducers({ reducer }));
 
   expect(store.getState().reducer.loading).toBe(false);
