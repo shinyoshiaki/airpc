@@ -27,16 +27,16 @@ test("redux", () => {
   }
 
   const [methods, reducer] = withRedux(ReducerClass, initialState);
-  const store = createStore(combineReducers({ reducer }));
+  const store = createStore(reducer);
 
-  expect(store.getState().reducer.loading).toBe(false);
-  expect(store.getState().reducer.result).toBe("");
+  expect(store.getState().loading).toBe(false);
+  expect(store.getState().result).toBe("");
 
   store.dispatch(methods.request());
-  expect(store.getState().reducer.loading).toBe(true);
-  expect(store.getState().reducer.result).toBe("");
+  expect(store.getState().loading).toBe(true);
+  expect(store.getState().result).toBe("");
 
   store.dispatch(methods.succeed("test"));
-  expect(store.getState().reducer.loading).toBe(false);
-  expect(store.getState().reducer.result).toBe("test");
+  expect(store.getState().loading).toBe(false);
+  expect(store.getState().result).toBe("test");
 });
