@@ -31,16 +31,16 @@ test("redux", () => {
 
   const store = createStore(combineReducers({ reducer }));
 
-  const methods = wrapRedux(Link, store.dispatch);
+  const methods = wrapRedux(Link);
 
   expect(store.getState().reducer.loading).toBe(false);
   expect(store.getState().reducer.result).toBe("");
 
-  methods.request();
+  store.dispatch(methods.request());
   expect(store.getState().reducer.loading).toBe(true);
   expect(store.getState().reducer.result).toBe("");
 
-  methods.succeed("test");
+  store.dispatch(methods.succeed("test"));
   expect(store.getState().reducer.loading).toBe(false);
   expect(store.getState().reducer.result).toBe("test");
 });

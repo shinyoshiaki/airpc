@@ -1,19 +1,16 @@
-export type WrapperSync = (v: any) => void;
+import { Any } from "./typings/any";
 
 class WrapRedux {
-  constructor(target: any, wrapper: WrapperSync) {
+  constructor(target: any) {
     Object.getOwnPropertyNames(target.prototype).forEach(type => {
       if (type === "constructor") return;
-      this[type] = (...args) => wrapper({ type, args });
+      this[type] = (...args) => ({ type, args });
     });
   }
 }
 
-export function wrapRedux<T>(
-  target: { new (...args): T },
-  wrapper: WrapperSync
-): T {
-  return new WrapRedux(target, wrapper) as any;
+export function wrapRedux<T>(target: { new (...args): T }): Any<T> {
+  return new WrapRedux(target) as any;
 }
 
 export function exposeRedux<T extends any>(instance: T) {
