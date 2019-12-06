@@ -25,3 +25,15 @@ export function exposeRedux<T extends any>(instance: T) {
   };
   return update;
 }
+
+export function withRedux<A extends any, B>(
+  target: { new (state: B): A },
+  initialState: B
+): [Any<A>, (state: B, action: any) => A["state"]] {
+  const instance = new target(initialState);
+
+  const wrapped = wrapRedux(target);
+  const update = exposeRedux(instance);
+
+  return [wrapped, update];
+}

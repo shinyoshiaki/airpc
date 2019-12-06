@@ -1,5 +1,5 @@
 import { Exposer, ExposerObject, Wrapper, expose, wrap } from "./main";
-import { exposeRedux, wrapRedux } from "./redux";
+import { exposeRedux, withRedux, wrapRedux } from "./redux";
 
 export {
   Wrapper,
@@ -8,5 +8,6 @@ export {
   wrap,
   expose,
   wrapRedux,
-  exposeRedux
+  exposeRedux,
+  withRedux
 };

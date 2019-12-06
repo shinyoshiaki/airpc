@@ -1,5 +1,6 @@
 import { combineReducers, createStore } from "redux";
-import { exposeRedux, wrapRedux } from "../src";
+
+import { withRedux } from "../src";
 
 test("redux", () => {
   type State = { loading: boolean; result: string };
@@ -9,7 +10,7 @@ test("redux", () => {
     result: ""
   };
 
-  class Link {
+  class ReducerClass {
     constructor(private state: State) {}
 
     request(): State {
@@ -25,13 +26,9 @@ test("redux", () => {
     }
   }
 
-  const update = exposeRedux(new Link(initialState));
-
+  const [methods, update] = withRedux(ReducerClass, initialState);
   const reducer = (state = initialState, action: any) => update(state, action);
-
   const store = createStore(combineReducers({ reducer }));
-
-  const methods = wrapRedux(Link);
 
   expect(store.getState().reducer.loading).toBe(false);
   expect(store.getState().reducer.result).toBe("");
