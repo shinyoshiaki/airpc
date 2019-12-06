@@ -4,7 +4,8 @@ class WrapRedux {
   constructor(target: any) {
     Object.getOwnPropertyNames(target.prototype).forEach(type => {
       if (type === "constructor") return;
-      this[type] = (...args) => ({ type, args });
+      const actionType = target.name + "_" + type;
+      this[type] = (...args) => ({ type: actionType, args });
     });
   }
 }
@@ -14,11 +15,14 @@ export function wrapRedux<T>(target: { new (...args): T }): Action<T> {
 }
 
 export function exposeRedux<T extends any>(instance: T) {
-  const update = (state: any, v: any): T["state"] => {
+  const update = (state: any, v: { type: string; args: any }): T["state"] => {
     const { type, args } = v;
-    if (instance[type]) {
+    const [name, method] = type.split("_");
+    if (instance.constructor.name !== name) return state;
+
+    if (instance[method]) {
       instance.state = state;
-      return instance[type](...args);
+      return instance[method](...args);
     } else {
       return state;
     }
