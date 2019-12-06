@@ -1,32 +1,21 @@
-import { combineReducers, createStore } from "redux";
-
+import { createStore } from "redux";
 import { withRedux } from "../src";
 
 test("redux", () => {
   type State = { loading: boolean; result: string };
 
-  const initialState: State = {
-    loading: false,
-    result: ""
-  };
-
-  class ReducerClass {
-    constructor(private state: State) {}
-
-    request(): State {
-      return { ...this.state, loading: true };
-    }
-
-    succeed(result: string): State {
-      return {
+  const [methods, reducer] = withRedux(
+    class ReducerClass {
+      constructor(private state: State) {}
+      request = (): State => ({ ...this.state, loading: true });
+      succeed = (result: string): State => ({
         ...this.state,
         loading: false,
         result
-      };
-    }
-  }
-
-  const [methods, reducer] = withRedux(ReducerClass, initialState);
+      });
+    },
+    { loading: false, result: "" }
+  );
   const store = createStore(reducer);
 
   expect(store.getState().loading).toBe(false);

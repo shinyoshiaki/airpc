@@ -2,19 +2,19 @@ import { Action } from "./typings/action";
 
 class WrapRedux {
   constructor(target: any) {
-    Object.getOwnPropertyNames(target.prototype).forEach(type => {
-      if (type === "constructor") return;
+    Object.keys(new target()).forEach(type => {
+      if (type === "constructor" || type === "state") return;
       const actionType = target.name + "_" + type;
       this[type] = (...args) => ({ type: actionType, args });
     });
   }
 }
 
-export function wrapRedux<T>(target: { new (...args): T }): Action<T> {
+function wrapRedux<T>(target: { new (...args): T }): Action<T> {
   return new WrapRedux(target) as any;
 }
 
-export function exposeRedux<T extends any>(instance: T) {
+function exposeRedux<T extends any>(instance: T) {
   const update = (state: any, v: { type: string; args: any }): T["state"] => {
     const { type, args } = v;
     const [name, method] = type.split("_");
@@ -22,7 +22,7 @@ export function exposeRedux<T extends any>(instance: T) {
 
     if (instance[method]) {
       instance.state = state;
-      return instance[method](...args);
+      return { ...state, ...instance[method](...args) };
     } else {
       return state;
     }
