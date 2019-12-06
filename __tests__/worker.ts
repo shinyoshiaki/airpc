@@ -1,4 +1,5 @@
-import { expose, workerThreadsExposer } from "../src";
+import { expose } from "../src";
+import { workerThreadsExposer } from "../src/module";
 
 export class TestWorker {
   increment(n: number) {
