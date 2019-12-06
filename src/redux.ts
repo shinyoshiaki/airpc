@@ -10,7 +10,7 @@ class WrapRedux {
   }
 }
 
-function wrapRedux<T>(target: { new (...args): T }): Action<T> {
+function wrapRedux<T>(target: { new (...args): T }) {
   return new WrapRedux(target) as any;
 }
 
@@ -34,7 +34,7 @@ export function withRedux<A extends any, B>(
   target: { new (state: B): A },
   initialState: B
 ): [
-  Omit<Action<A>, "state">,
+  Omit<Action<A, B>, "state">,
   (state: B | undefined, action: Omit<A[keyof A], "state">) => A["state"]
 ] {
   const instance = new target(initialState);
