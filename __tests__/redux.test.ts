@@ -10,9 +10,7 @@ test("redux", () => {
 
   const [methods, reducer] = withRedux(
     class ReducerClass {
-      constructor(private state: State) {
-        this.state;
-      }
+      constructor(public state: State) {}
       request = () => ({
         loading: true
       });
