@@ -11,9 +11,11 @@ test("redux", () => {
   const [methods, reducer] = withRedux(
     class ReducerClass {
       constructor(public state: State) {}
-      request = () => ({
-        loading: true
-      });
+      request() {
+        return {
+          loading: true
+        };
+      }
       succeed = (result: string) => ({
         loading: false,
         result
