@@ -2,11 +2,19 @@
 Object.defineProperty(exports, "__esModule", { value: true });
 class WrapRedux {
     constructor(target) {
-        Object.keys(new target()).forEach(type => {
-            if (type === "constructor" || type === "state")
-                return;
+        const subscribe = (type) => {
             const actionType = target.name + "_" + type;
             this[type] = (...args) => ({ type: actionType, args });
+        };
+        Object.keys(new target()).forEach(type => {
+            if (type === "state")
+                return;
+            subscribe(type);
+        });
+        Object.getOwnPropertyNames(target.prototype).forEach(type => {
+            if (type === "constructor")
+                return;
+            subscribe(type);
         });
     }
 }
