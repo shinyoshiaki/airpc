@@ -35,7 +35,10 @@ export function withRedux<A extends any, B>(
   initialState: B
 ): [
   Omit<ActionCreator<A, Required<B>>, "state">,
-  (state: B | undefined, action: Omit<A[keyof A], "state">) => ValidState<B, A>
+  (
+    state: B | undefined,
+    action: Omit<A[keyof A], "state">
+  ) => ValidState<B, A["state"]>
 ] {
   const instance = new target(initialState);
 

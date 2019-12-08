@@ -22,8 +22,6 @@ jobs:
       - name: serve
         run: |
           yarn install
-          yarn test
-          yarn build
           ./deploy.sh
 
       - name: deploy
