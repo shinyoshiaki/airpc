@@ -39,7 +39,8 @@ export function wrap<T>(target: { new (): T }, wrapper: Wrapper): Remote<T> {
   return new Wrap(target, wrapper) as any;
 }
 
-export function expose(instance: any, exposer: Exposer) {
+export function expose<T>(creator: { new (): T }, exposer: Exposer) {
+  const instance = new creator();
   exposer.subscribe(async v => {
     const { port, value } = v;
     const { type, args, uuid } = decode(value) as any;
