@@ -14,4 +14,6 @@ export declare type ExposerObject = {
 export declare function wrap<T>(target: {
     new (): T;
 }, wrapper: Wrapper): Remote<T>;
-export declare function expose(instance: any, exposer: Exposer): void;
+export declare function expose<T>(creator: {
+    new (): T;
+}, exposer: Exposer): void;

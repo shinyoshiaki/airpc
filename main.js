@@ -24,7 +24,8 @@ function wrap(target, wrapper) {
     return new Wrap(target, wrapper);
 }
 exports.wrap = wrap;
-function expose(instance, exposer) {
+function expose(creator, exposer) {
+    const instance = new creator();
     exposer.subscribe((v) => tslib_1.__awaiter(this, void 0, void 0, function* () {
         const { port, value } = v;
         const { type, args, uuid } = msgpack_1.decode(value);
