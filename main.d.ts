@@ -6,14 +6,10 @@ export declare type Wrapper = {
 };
 export declare type Exposer = Subject<ExposerObject>;
 export declare type ExposerObject = {
-    port: {
-        postMessage: (v: Uint8Array) => void;
-    };
+    postMessage: (v: Uint8Array) => void;
     value: Uint8Array;
 };
 export declare function wrap<T>(target: {
-    new (): T;
+    new (...args: any[]): T;
 }, wrapper: Wrapper): Remote<T>;
-export declare function expose<T>(creator: {
-    new (): T;
-}, exposer: Exposer): void;
+export declare function expose(instance: any, exposer: Exposer): void;

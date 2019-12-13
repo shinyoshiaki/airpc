@@ -24,13 +24,14 @@ function wrap(target, wrapper) {
     return new Wrap(target, wrapper);
 }
 exports.wrap = wrap;
-function expose(creator, exposer) {
-    const instance = new creator();
+function expose(instance, exposer) {
     exposer.subscribe((v) => tslib_1.__awaiter(this, void 0, void 0, function* () {
-        const { port, value } = v;
+        const { postMessage, value } = v;
         const { type, args, uuid } = msgpack_1.decode(value);
-        const response = yield instance[type](...args);
-        port.postMessage(msgpack_1.encode({ uuid, response }));
+        if (instance[type]) {
+            const response = yield instance[type](...args);
+            postMessage(msgpack_1.encode({ uuid, response }));
+        }
     }));
 }
 exports.expose = expose;
