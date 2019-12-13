@@ -20,4 +20,4 @@ export class TestWorker {
   }
 }
 
-expose(TestWorker, workerThreadsExposer());
+expose(new TestWorker(), workerThreadsExposer());

@@ -9,7 +9,7 @@ export type Wrapper = {
 };
 export type Exposer = Subject<ExposerObject>;
 export type ExposerObject = {
-  port: { postMessage: (v: Uint8Array) => void };
+  postMessage: (v: Uint8Array) => void;
   value: Uint8Array;
 };
 
@@ -18,7 +18,7 @@ class Wrap {
     Object.getOwnPropertyNames(target.prototype).forEach(type => {
       if (type === "constructor") return;
 
-      this[type] = (...args) =>
+      (this as any)[type] = (...args: any[]) =>
         new Promise(r => {
           const parentId = generateUUID();
 
@@ -35,17 +35,21 @@ class Wrap {
   }
 }
 
-export function wrap<T>(target: { new (): T }, wrapper: Wrapper): Remote<T> {
+export function wrap<T>(
+  target: { new (...args: any[]): T },
+  wrapper: Wrapper
+): Remote<T> {
   return new Wrap(target, wrapper) as any;
 }
 
-export function expose<T>(creator: { new (): T }, exposer: Exposer) {
-  const instance = new creator();
+export function expose(instance: any, exposer: Exposer) {
   exposer.subscribe(async v => {
-    const { port, value } = v;
+    const { postMessage, value } = v;
     const { type, args, uuid } = decode(value) as any;
-    const response = await instance[type](...args);
-    port.postMessage(encode({ uuid, response }));
+    if (instance[type]) {
+      const response = await instance[type](...args);
+      postMessage(encode({ uuid, response }));
+    }
   });
 }
 

@@ -31,7 +31,7 @@ export const workerThreadsExposer = (): Exposer => {
   if (parentPort) {
     parentPort.on("message", data => {
       const { port, value } = data;
-      subject.next({ port, value });
+      subject.next({ postMessage: v => port.postMessage(v), value });
     });
   }
 
