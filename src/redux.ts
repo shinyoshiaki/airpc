@@ -4,7 +4,7 @@ class WrapRedux {
   constructor(target: any) {
     const subscribe = (type: string) => {
       const actionType = target.name + "_" + type;
-      (this as any)[type] = (...args: []) => ({ type: actionType, args });
+      (this as any)[type] = (...args: any[]) => ({ type: actionType, args });
     };
     Object.keys(new target()).forEach(type => {
       if (type === "state") return;
@@ -15,10 +15,6 @@ class WrapRedux {
       subscribe(type);
     });
   }
-}
-
-function wrapRedux<T>(target: { new (...args: any[]): T }) {
-  return new WrapRedux(target) as any;
 }
 
 function exposeRedux<T extends any>(instance: T) {
@@ -49,7 +45,7 @@ export function withRedux<A extends any, B>(
 ] {
   const instance = new target(initialState);
 
-  const methods = wrapRedux(target);
+  const methods = new WrapRedux(target) as any;
   const update = exposeRedux(instance);
 
   const reducer = (state = initialState, action: any) => update(state, action);
