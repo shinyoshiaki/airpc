@@ -18,9 +18,6 @@ class WrapRedux {
         });
     }
 }
-function wrapRedux(target) {
-    return new WrapRedux(target);
-}
 function exposeRedux(instance) {
     const update = (state, v) => {
         const { type, args } = v;
@@ -39,7 +36,7 @@ function exposeRedux(instance) {
 }
 function withRedux(target, initialState) {
     const instance = new target(initialState);
-    const methods = wrapRedux(target);
+    const methods = new WrapRedux(target);
     const update = exposeRedux(instance);
     const reducer = (state = initialState, action) => update(state, action);
     return [methods, reducer];
