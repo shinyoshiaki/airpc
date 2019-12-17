@@ -3,7 +3,7 @@ import { ActionCreator, ValidState } from "./typings/action";
 class WrapRedux {
   constructor(target: any) {
     const subscribe = (type: string) => {
-      const actionType = target.name + "_" + type;
+      const actionType = target.name + "/" + type;
       (this as any)[type] = (...args: any[]) => ({ type: actionType, args });
     };
     Object.keys(new target()).forEach(type => {
@@ -20,7 +20,7 @@ class WrapRedux {
 function exposeRedux<T extends any>(instance: T) {
   const update = (state: any, v: { type: string; args: any }): T["state"] => {
     const { type, args } = v;
-    const [name, method] = type.split("_");
+    const [name, method] = type.split("/");
     if (instance.constructor.name !== name) return state;
 
     if (instance[method]) {
