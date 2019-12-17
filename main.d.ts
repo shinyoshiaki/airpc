@@ -11,5 +11,5 @@ export declare type ExposerObject = {
 };
 export declare function wrap<T>(target: {
     new (...args: any[]): T;
-}, wrapper: Wrapper): Remote<T>;
+}, wrapper: Wrapper, timeout?: number): Remote<T>;
 export declare function expose(instance: any, exposer: Exposer): void;

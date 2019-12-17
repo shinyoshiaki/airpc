@@ -3,15 +3,18 @@ Object.defineProperty(exports, "__esModule", { value: true });
 const tslib_1 = require("tslib");
 const msgpack_1 = require("@msgpack/msgpack");
 class Wrap {
-    constructor(target, wrapper) {
+    constructor(target, wrapper, timeout) {
         Object.getOwnPropertyNames(target.prototype).forEach(type => {
             if (type === "constructor")
                 return;
-            this[type] = (...args) => new Promise(r => {
+            this[type] = (...args) => new Promise((r, f) => {
                 const parentId = generateUUID();
+                const id = timeout && setTimeout(() => f("wrap timeout"), timeout);
                 wrapper.subject.subscribe(res => {
                     const { uuid, response } = msgpack_1.decode(res);
                     if (parentId === uuid) {
+                        if (id)
+                            clearTimeout(id);
                         r(response);
                     }
                 });
@@ -20,8 +23,8 @@ class Wrap {
         });
     }
 }
-function wrap(target, wrapper) {
-    return new Wrap(target, wrapper);
+function wrap(target, wrapper, timeout) {
+    return new Wrap(target, wrapper, timeout);
 }
 exports.wrap = wrap;
 function expose(instance, exposer) {
