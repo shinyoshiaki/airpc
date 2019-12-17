@@ -5,6 +5,7 @@ test("redux", () => {
   type State = {
     loading: boolean;
     result: string;
+    num: number;
     errorMessage?: string;
   };
 
@@ -24,8 +25,9 @@ test("redux", () => {
         loading: false,
         errorMessage
       });
+      increment = () => ({ num: this.state.num + 1 });
     },
-    { loading: false, result: "" }
+    { loading: false, result: "", num: 0 }
   );
   const store = createStore(reducer);
 
@@ -43,4 +45,8 @@ test("redux", () => {
   store.dispatch(methods.error("error"));
   expect(store.getState().loading).toBe(false);
   expect(store.getState().errorMessage).toBe("error");
+
+  store.dispatch(methods.increment());
+  store.dispatch(methods.increment());
+  expect(store.getState().num).toBe(2);
 });
