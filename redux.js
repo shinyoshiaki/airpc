@@ -3,7 +3,7 @@ Object.defineProperty(exports, "__esModule", { value: true });
 class WrapRedux {
     constructor(target) {
         const subscribe = (type) => {
-            const actionType = target.name + "_" + type;
+            const actionType = target.name + "/" + type;
             this[type] = (...args) => ({ type: actionType, args });
         };
         Object.keys(new target()).forEach(type => {
@@ -21,7 +21,7 @@ class WrapRedux {
 function exposeRedux(instance) {
     const update = (state, v) => {
         const { type, args } = v;
-        const [name, method] = type.split("_");
+        const [name, method] = type.split("/");
         if (instance.constructor.name !== name)
             return state;
         if (instance[method]) {
