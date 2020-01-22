@@ -1,16 +1,14 @@
 const HtmlWebpackPlugin = require("html-webpack-plugin");
-const WorkboxWebpackPlugin = require("workbox-webpack-plugin");
-const ImportHttpWebpackPlugin = require("import-http/webpack");
-
+const TerserPlugin = require("terser-webpack-plugin");
 const dist = __dirname + "/build";
 
 module.exports = {
   devtool: "source-map",
-  entry: ["@babel/polyfill", "./src/index"],
+  entry: "./src/index",
   output: {
     path: dist,
     filename: "bundle.js",
-    publicPath: "/",
+    publicPath: ".",
     globalObject: "self"
   },
   resolve: {
@@ -19,52 +17,8 @@ module.exports = {
   module: {
     rules: [
       {
-        test: /\.(ts|js)x?$/,
-        exclude: /node_modules/,
-        use: {
-          loader: "babel-loader"
-        }
-      },
-      {
-        test: /\.(ts|tsx)$/,
-        enforce: "pre",
-        use: [
-          {
-            options: {
-              eslintPath: require.resolve("eslint")
-            },
-            loader: require.resolve("eslint-loader")
-          }
-        ],
-        exclude: /node_modules/
-      },
-
-      {
-        test: /\.worker\.ts$/,
-        use: [
-          {
-            loader: "worker-loader",
-            options: { inline: true, name: "[name].js" }
-          },
-          "babel-loader"
-        ]
-      },
-      {
-        test: /\.comlink\.ts$/,
-        use: [
-          {
-            loader: "comlink-loader"
-          },
-          "babel-loader"
-        ]
-      },
-      {
-        test: /\.css$/,
-        use: ["style-loader", "css-loader"]
-      },
-      {
-        test: /\.(jpe?g|png|gif|ico|svg)$/i,
-        use: [{ loader: "file-loader" }]
+        test: /\.ts(x)?$/,
+        use: { loader: "ts-loader" }
       }
     ]
   },
@@ -75,18 +29,14 @@ module.exports = {
           ? "./public/index.prod.html"
           : "./public/index.html",
       favicon: "./public/favicon.ico"
-    }),
-    new WorkboxWebpackPlugin.GenerateSW({
-      swDest: dist + "/sw.js"
-    }),
-    new ImportHttpWebpackPlugin()
+    })
   ],
   devServer: {
     disableHostCheck: true,
-    contentBase: __dirname + "/assets",
     historyApiFallback: true
-  },
-  performance: {
-    hints: false
   }
+  // optimization: {
+  //   minimize: true,
+  //   minimizer: [new TerserPlugin({ terserOptions: { mangle: true } })]
+  // }
 };
