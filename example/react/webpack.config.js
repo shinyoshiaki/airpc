@@ -34,9 +34,9 @@ module.exports = {
   devServer: {
     disableHostCheck: true,
     historyApiFallback: true
+  },
+  optimization: {
+    minimize: true,
+    minimizer: [new TerserPlugin({ terserOptions: { mangle: true } })]
   }
-  // optimization: {
-  //   minimize: true,
-  //   minimizer: [new TerserPlugin({ terserOptions: { mangle: true } })]
-  // }
 };
