@@ -5,7 +5,7 @@
   "author": "shinyoshiaki",
   "license": "MIT",
   "scripts": {
-    "test": "jest --forceExit",
+    "test": "jest",
     "build": "tsc",
     "type": "tsc --noEmit",
     "publish": "npm publish --access=public"

@@ -1,7 +1,8 @@
-import { wrap, udpWrapper } from "../src";
+import { wrap } from "../src";
 import { createSocket } from "dgram";
 import { Test, exposeUdp } from "./udp";
 import getPort from "get-port";
+import { udpWrapper } from "../src/module/udp";
 
 test(
   "udp",

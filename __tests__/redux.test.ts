@@ -1,5 +1,5 @@
 import { createStore } from "redux";
-import { withRedux } from "../src";
+import { withRedux } from "../src/redux";
 
 test("redux", () => {
   type State = {

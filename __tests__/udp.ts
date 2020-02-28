@@ -1,5 +1,6 @@
-import { expose, udpExposer } from "../src";
+import { expose } from "../src";
 import { Socket } from "dgram";
+import { udpExposer } from "../src/module/udp";
 
 export class Test {
   increment(n: number) {
